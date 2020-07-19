@@ -5,6 +5,10 @@ from collections import namedtuple
 from copy import deepcopy
 import random
 
+random.seed(0)
+torch.manual_seed(0)
+
+
 Transition = namedtuple('Transition', ['state', 'action', 'reward', 'next_state', 'done'])
 
 class Normalizer(object):
