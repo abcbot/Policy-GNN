@@ -15,6 +15,7 @@ def main():
     #dataset = 'PubMed'
     #dataset = 'CiteSeer'
     env = gcn_env(dataset=dataset, max_layer=5)
+    env.seed(0)
     agent = DQNAgent(scope='dqn',
                     action_num = env.action_num,
                     replay_memory_size=int(1e4),
@@ -31,9 +32,9 @@ def main():
     fw = open(dataset+".csv", 'w')
     for i_episode in range(1, max_episodes+1):
         loss, reward, debug = agent.learn(env, max_timesteps) # debug = (val_acc, test_acc)
-        if np.mean(debug[0]) > best_val:
+        if np.mean(debug[0]) > best_val: # check whether gain improvement on validation set
             test_acc = env.test_batch()
-            if test_acc > best_test:
+            if test_acc > best_test: # record the best testing accuracy
                 best_test = test_acc
         best_val = np.mean(debug[0])
         print("Episode:", i_episode, "Avg_reward:", debug[1], "Val_Acc:", np.mean(debug[0]), "Test_Acc:", test_acc, "Best Test:", best_test)
