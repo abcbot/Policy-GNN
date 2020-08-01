@@ -12,16 +12,16 @@ def main():
     max_timesteps = 10
     ### Experiment Settings ###
     # Cora
-    #dataset = 'Cora'
-    #max_episodes = 325
+    dataset = 'Cora'
+    max_episodes = 325
 
     # Citeseer
     #dataset = 'CiteSeer'
     #max_episodes = 230
 
     # Pubmed
-    dataset = 'PubMed'
-    max_episodes = 220
+    #dataset = 'PubMed'
+    #max_episodes = 220
     ### Experiment Settings ###
 
     env = gcn_env(dataset=dataset, max_layer=5)
