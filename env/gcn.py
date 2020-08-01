@@ -169,6 +169,7 @@ class gcn_env(object):
         self.past_performance.extend(val_acc)
         reward = [100 * (each - baseline) for each in val_acc] # FIXME: Reward Engineering
         r = np.mean(np.array(reward))
+        val_acc = np.mean(val_acc)
         return next_state, reward, [done]*self.batch_size, (val_acc, r)
 
     #def eval_step2(self, actions):
