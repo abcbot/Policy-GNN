@@ -51,8 +51,7 @@ class gcn_env(object):
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr, weight_decay=weight_decay)
         train_mask = self.data.train_mask.to('cpu').numpy()
         self.train_indexes = np.where(train_mask==True)[0]
-        self.batch_size = batch_size  # Batch Training
-        #self.batch_size = len(self.train_indexes) - 1 # Full Batch Training
+        self.batch_size = len(self.train_indexes) - 1
         self.i = 0
         self.val_acc = 0.0
         self._set_action_space(max_layer)
