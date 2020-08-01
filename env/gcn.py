@@ -172,39 +172,6 @@ class gcn_env(object):
         val_acc = np.mean(val_acc)
         return next_state, reward, [done]*self.batch_size, (val_acc, r)
 
-    #def eval_step2(self, actions):
-    #    self.model.eval()
-    #    start = self.i
-    #    end = (self.i + self.batch_size) % len(self.train_indexes)
-    #    index = self.train_indexes[start:end]
-    #    done = False
-    #    for act, idx in zip(actions, index):
-    #        if self.gcn == True or self.enable_dlayer == False:
-    #            act = self.max_layer
-    #        self.buffers[act].append(idx)
-    #        if len(self.buffers[act]) >= self.batch_size:
-    #            self.train(act, self.buffers[act])
-    #            self.buffers[act] = []
-    #            done = True
-
-    #    if self.gcn == True or self.enable_skh == False:
-    #        ### Random ###
-    #        self.i += min((self.i + self.batch_size) % self.batch_size, self.batch_size)
-    #        start = self.i
-    #        end = (self.i + self.batch_size) % len(self.train_indexes)
-    #        index = self.train_indexes[start:end]
-    #    else:
-    #        index = self.stochastic_k_hop(actions, index) 
-    #    next_state = self.data.x[index].to('cpu').numpy()
-    #    val_acc_dict = self.eval_batch() # val_acc is a dict, key --> actions, value --> accuracy.
-    #    val_acc = [val_acc_dict[a] for a in actions]
-    #    #test_acc = self.test_batch()
-    #    baseline = np.mean(np.array(self.past_performance))
-    #    self.past_performance.extend(val_acc)
-    #    #reward = [val_acc - baseline] * self.batch_size
-    #    reward = [each - baseline for each in val_acc]
-    #    return next_state, reward, [done]*self.batch_size, (val_acc, test_acc)
-
     def stochastic_k_hop(self, actions, index):
         next_batch = []
         for idx, act in zip(index, actions):
