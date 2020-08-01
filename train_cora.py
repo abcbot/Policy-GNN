@@ -35,10 +35,9 @@ def main():
     for i_episode in range(1, max_episodes+1):
         loss, reward, (val_acc, reward) = agent.learn(env, max_timesteps) # debug = (val_acc, reward)
         if val_acc > last_val: # check whether gain improvement on validation set
-            test_acc = env.test_batch()
             best_policy = deepcopy(agent) # save the best policy
         last_val = val_acc 
-        print("Training Meta-policy:", i_episode, "; Avg_reward:", reward, "; Val_Acc:", val_acc, "; Test:", test_acc)
+        print("Training Meta-policy:", i_episode, "Val_Acc:", val_acc, "Avg_reward:", reward)
 
     # Testing: Apply meta-policy to train a new GNN
     test_acc = 0.0
