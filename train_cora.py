@@ -29,7 +29,6 @@ def main():
             )
     env.policy = agent
     last_val = 0.0
-    best_test = 0.0
     # Training:  meta-policy
     print("Training Meta-policy on Validation Set")
     for i_episode in range(1, max_episodes+1):
