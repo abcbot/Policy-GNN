@@ -9,19 +9,11 @@ from copy import deepcopy
 
 def main():
     torch.backends.cudnn.deterministic=True
-    max_timesteps = 10
     ### Experiment Settings ###
-    # Cora
-    dataset = 'Cora'
-    max_episodes = 325
-
-    # Citeseer
-    #dataset = 'CiteSeer'
-    #max_episodes = 230
-
     # Pubmed
-    #dataset = 'PubMed'
-    #max_episodes = 220
+    max_timesteps = 10
+    dataset = 'PubMed'
+    max_episodes = 220
     ### Experiment Settings ###
 
     env = gcn_env(dataset=dataset, max_layer=5)
@@ -36,21 +28,22 @@ def main():
                     device=torch.device('cpu')
             )
     env.policy = agent
-    best_val = 0.0
-    test_acc = 0.0
-    best_test = 0.0
-    # Training meta-policy
+    last_val = 0.0
+    # Training:  meta-policy
     print("Training Meta-policy on Validation Set")
     for i_episode in range(1, max_episodes+1):
         loss, reward, (val_acc, reward) = agent.learn(env, max_timesteps) # debug = (val_acc, reward)
-        if val_acc > best_val: # check whether gain improvement on validation set
+        if val_acc > last_val: # check whether gain improvement on validation set
+            test_acc = env.test_batch()
             best_policy = deepcopy(agent) # save the best policy
-        best_val = val_acc 
-        print("Training Meta-policy:", i_episode, "; Avg_reward:", reward, "; Val_Acc:", val_acc)
+        last_val = val_acc 
+        print("Training Meta-policy:", i_episode, "; Avg_reward:", reward, "; Val_Acc:", val_acc, "; Test:", test_acc)
 
-    # Apply meta-policy to re-train GNN
+    # Testing: Apply meta-policy to train a new GNN
+    test_acc = 0.0
     print("Training GNNs with learned meta-policy")
     new_env = gcn_env(dataset=dataset, max_layer=5)
+    new_env.seed(0)
     new_env.policy = best_policy
     state = new_env.reset2()
     for i_episode in range(1, 1000):
