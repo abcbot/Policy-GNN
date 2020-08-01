@@ -31,9 +31,9 @@ def main():
     best_test = 0.0
     fw = open(dataset+".csv", 'w')
     for i_episode in range(1, max_episodes+1):
-        loss, reward, debug = agent.learn(env, max_timesteps) # debug = (val_acc, test_acc)
+        loss, reward, debug = agent.learn(env, max_timesteps) # debug = (val_acc, reward)
         if np.mean(debug[0]) > best_val: # check whether gain improvement on validation set
-            test_acc = env.test_batch()
+            test_acc = env.test_batch() # get the accuracy on testing dataset
             if test_acc > best_test: # record the best testing accuracy
                 best_test = test_acc
         best_val = np.mean(debug[0])
