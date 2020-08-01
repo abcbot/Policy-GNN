@@ -29,7 +29,7 @@ def main():
             )
     env.policy = agent
     last_val = 0.0
-    # Training:  meta-policy
+    # Training: Learning meta-policy
     print("Training Meta-policy on Validation Set")
     for i_episode in range(1, max_episodes+1):
         loss, reward, (val_acc, reward) = agent.learn(env, max_timesteps) # debug = (val_acc, reward)
