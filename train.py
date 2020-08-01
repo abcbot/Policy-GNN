@@ -12,16 +12,16 @@ def main():
     max_timesteps = 10
     ### Experiment Settings ###
     # Cora
-    dataset = 'Cora'
-    max_episodes = 325
+    #dataset = 'Cora'
+    #max_episodes = 325
 
     # Citeseer
     #dataset = 'CiteSeer'
     #max_episodes = 230
 
     # Pubmed
-    #dataset = 'PubMed'
-    #max_episodes = 220
+    dataset = 'PubMed'
+    max_episodes = 220
     ### Experiment Settings ###
 
     env = gcn_env(dataset=dataset, max_layer=5)
@@ -44,7 +44,7 @@ def main():
     for i_episode in range(1, max_episodes+1):
         loss, reward, (val_acc, reward) = agent.learn(env, max_timesteps) # debug = (val_acc, reward)
         if val_acc > best_val: # check whether gain improvement on validation set
-            best_policy = deepcopy(agent)
+            best_policy = deepcopy(agent) # save the best policy
         best_val = val_acc 
         print("Training Meta-policy:", i_episode, "; Avg_reward:", reward, "; Val_Acc:", val_acc)
 
