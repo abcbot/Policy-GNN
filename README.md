@@ -1,4 +1,6 @@
 # Policy-GNN
+This is the implementation of Policy-GNN.
+
 ## Installation
 Install pytorch <br />
 Install torch-geometric
